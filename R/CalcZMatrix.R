@@ -6,7 +6,6 @@
 #' @param er_path a string that points to the final er result as an RDS object.
 #' @param out_path a string that points to the folder where the z matrix will be outputted.
 #' @return The z matrix calculated by the PredZ function
-#' @example z_matrix <- CalcZMatrix("results/x.csv", "resutls/er.RDS", "results")
 #' @export
 
 
