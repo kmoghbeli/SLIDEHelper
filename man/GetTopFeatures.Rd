@@ -6,6 +6,7 @@
 \usage{
 GetTopFeatures(
   x_path,
+  y_path,
   er_path,
   out_path,
   SLIDE_res,
@@ -15,6 +16,8 @@ GetTopFeatures(
 }
 \arguments{
 \item{x_path}{a string that points to the x matrix.}
+
+\item{y_path}{a string that points to the y vector.}
 
 \item{er_path}{a string that points to the final er result as an RDS object.}
 

@@ -1,6 +1,5 @@
 library(SLIDEHelper)
 y_path <- "/Users/xiaoh/Library/CloudStorage/OneDrive-UniversityofPittsburgh/MI_Spatial/ER_SLIDE/RestingFibro/050123/Data/y.csv"
-z_path <- "/Users/xiaoh/Library/CloudStorage/OneDrive-UniversityofPittsburgh/MI_Spatial/ER_SLIDE/RestingFibro/050123/ER_Results/z_matrix.csv"
 er_path <- "/Users/xiaoh/Library/CloudStorage/OneDrive-UniversityofPittsburgh/MI_Spatial/ER_SLIDE/RestingFibro/050123/ER_Results/final_delta_0.01_lambda_0.5.rds"
 method <- 4
 do_interacts <- TRUE
@@ -18,6 +17,7 @@ condition <- "corr"
 
 Z_matrix <- CalcZMatrix(x_path, er_path, out_path)
 
+z_path <- "/Users/xiaoh/Library/CloudStorage/OneDrive-UniversityofPittsburgh/MI_Spatial/ER_SLIDE/RestingFibro/050123/ER_Results/z_matrix.csv"
 SLIDE_res <- runSLIDE(y_path = y_path,
                       z_path = z_path,
                       er_path = er_path, 

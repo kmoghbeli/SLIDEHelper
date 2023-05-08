@@ -3,6 +3,7 @@
 #' Output the top features in each latent factors by taking a union of features with highest A loadings and spearman correlations or univariate AUCs
 #'
 #' @param x_path a string that points to the x matrix.
+#' @param y_path a string that points to the y vector.
 #' @param er_path a string that points to the final er result as an RDS object.
 #' @param out_path a string that points to a folder where txt files of each latent factors will be outputted.
 #' @param SLIDE_res the object outputted by the runSLIDE function. 
@@ -12,9 +13,10 @@
 #' @export
 
 
-GetTopFeatures <- function(x_path, er_path, out_path, SLIDE_res, num_top_feats = 10, condition){
+GetTopFeatures <- function(x_path, y_path, er_path, out_path, SLIDE_res, num_top_feats = 10, condition){
   
   x <- as.matrix(utils::read.csv(x_path, row.names = 1))
+  y <- as.matrix(utils::read.csv(y_path, row.names = 1))
   er_res <- readRDS(er_path)
   ks <- union(union(unique(SLIDE_res$interaction$p1), unique(SLIDE_res$interaction$p2)), unique(SLIDE_res$marginal_vals))
   A <- er_res$A[, ks]
@@ -32,10 +34,12 @@ GetTopFeatures <- function(x_path, er_path, out_path, SLIDE_res, num_top_feats =
     for (j in 1:length(idx)) { ## loop through variables with big enough loadings
       corr <- cor(x[,idx[j]],y,method = "spearman")
       sign <- sign(cor(x[,idx[j]],y,method = "spearman"))
+      
       if (condition == "auc"){
         AUC <- auc(y, x[, idx[j]])
         AUCs <- c(AUCs, AUC)
       }
+      
       corrs <- c(corrs, corr)
       signs <- c(signs, sign)
     }
