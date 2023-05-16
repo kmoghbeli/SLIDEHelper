@@ -10,10 +10,10 @@ runSLIDE(
   z_matrix,
   er_path,
   method = 4,
-  do_interacts,
+  do_interacts = TRUE,
   fdr = 0.1,
-  niter,
-  spec
+  niter = 500,
+  spec = 0.1
 )
 }
 \arguments{

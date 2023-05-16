@@ -3,3 +3,4 @@
 export(CalcZMatrix)
 export(GetTopFeatures)
 export(runSLIDE)
+importFrom(foreach,'%dopar%')

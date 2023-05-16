@@ -1,7 +1,8 @@
 #' running the SLIDE function
 #'
 #' Run the SLIDE function and formulate the results and the key parameters into a object.
-#'
+
+#' @importFrom foreach '%dopar%'
 #' @param y_path a string that points to the y vector
 #' @param z_path a string that points to the z matrix, user can also input the matrix directly.
 #' @param z_matrix the z matrix, user can also input a path to the csv file.
@@ -25,7 +26,7 @@ runSLIDE <- function(y_path, z_path = NULL, z_matrix, er_path, method = 4, do_in
   if (er_res$K <= 100){
     f_size = er_res$K
   }else (f_size = 100)
-  m
+  
   cat("f_size is set as ", f_size, "\n")
   
   SLIDE_res <- SLIDE::SLIDE(z, y, method = method, do_interacts = do_interacts, betas = NULL, top_prop = NULL, marginals = NULL,
