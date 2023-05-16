@@ -1,9 +1,10 @@
 #' running the SLIDE function
 #'
-#' Run the SLIDE function and formulate the restuls and the key parameters into a object.
+#' Run the SLIDE function and formulate the results and the key parameters into a object.
 #'
 #' @param y_path a string that points to the y vector
-#' @param z_path a string that points to the z matrix.
+#' @param z_path a string that points to the z matrix, user can also input the matrix directly.
+#' @param z_matrix the z matrix, user can also input a path to the csv file.
 #' @param er_path a string that points to the final er result as an RDS object.
 #' @param method which method of SLIDE to run
 #' @param do_interacts whether get interaction terms or not
@@ -14,10 +15,11 @@
 #' @export
 
 
-runSLIDE <- function(y_path, z_path, er_path, method = 4, do_interacts, fdr = 0.1, niter, spec){
+runSLIDE <- function(y_path, z_path = NULL, z_matrix, er_path, method = 4, do_interacts, fdr = 0.1, niter, spec){
   final_res <- NULL
   y <- as.matrix(utils::read.csv(y_path, row.names = 1))
-  z <- as.matrix(utils::read.csv(z_path, row.names = 1))
+  if (z_path != NULL){z <- as.matrix(utils::read.csv(z_path, row.names = 1))}
+  else{z = z_matrix}
   er_res <- readRDS(er_path)
   
   if (er_res$K <= 100){

@@ -6,7 +6,8 @@
 \usage{
 runSLIDE(
   y_path,
-  z_path,
+  z_path = NULL,
+  z_matrix,
   er_path,
   method = 4,
   do_interacts,
@@ -18,7 +19,9 @@ runSLIDE(
 \arguments{
 \item{y_path}{a string that points to the y vector}
 
-\item{z_path}{a string that points to the z matrix.}
+\item{z_path}{a string that points to the z matrix, user can also input the matrix directly.}
+
+\item{z_matrix}{the z matrix, user can also input a path to the csv file.}
 
 \item{er_path}{a string that points to the final er result as an RDS object.}
 
@@ -36,5 +39,5 @@ runSLIDE(
 A list that contains all key information from SLIDE.
 }
 \description{
-Run the SLIDE function and formulate the restuls and the key parameters into a object.
+Run the SLIDE function and formulate the results and the key parameters into a object.
 }

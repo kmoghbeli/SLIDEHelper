@@ -19,6 +19,7 @@ GetTopFeatures <- function(x_path, y_path, er_path, out_path, SLIDE_res, num_top
   y <- as.matrix(utils::read.csv(y_path, row.names = 1))
   er_res <- readRDS(er_path)
   ks <- union(union(unique(SLIDE_res$interaction$p1), unique(SLIDE_res$interaction$p2)), unique(SLIDE_res$marginal_vals))
+  if (ks == NULL){stop('The SLIDE_res input is not formatted correctly. Please re-run the runSLIDE function...')}
   A <- er_res$A[, ks]
   gene_names <- colnames(x)
   
