@@ -14,11 +14,11 @@ SLIDE_res <- runSLIDE(y_path = y_path,
                       z_matrix = Z_matrix,
                       er_path = er_path, 
                       do_interacts = TRUE,
-                      spec = 0.1,
+                      spec = 0.3,
                       niter = 100)
 
 num_top_feats <- 10
 condition <- "corr"
-SLIDE_res <- GetTopFeatures(x_path, er_path, out_path, SLIDE_res, num_top_feats = 10, condition = "corr")
+SLIDE_res <- GetTopFeatures(x_path, y_path, er_path, out_path, SLIDE_res, num_top_feats = 10, condition = "corr")
 
 
