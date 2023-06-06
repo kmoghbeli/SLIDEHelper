@@ -4,12 +4,12 @@
 \alias{plotSigGenes}
 \title{Plot significant genes for significant (marginal) latent factors}
 \usage{
-plotSigGenes(slide_results, output_plot_path = NULL, annotate_anchors = F)
+plotSigGenes(slide_results, out_path = NULL, annotate_anchors = F)
 }
 \arguments{
 \item{slide_results}{list - SLIDE results output from runSLIDE function}
 
-\item{output_plot_path}{string - Output path to save results}
+\item{out_path}{string - Output path to save results}
 
 \item{annotate_anchors}{logical - whether to annotate the latent factor
 with a '*'}
@@ -20,5 +20,5 @@ plt - ggplot image
 plot_df - dataframe used to plot results
 }
 \description{
-Calculate Z matrix by importing the PredZ function from EssReg package
+Plot significant genes for significant (marginal) latent factors
 }

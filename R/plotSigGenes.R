@@ -1,16 +1,15 @@
 #' Plot significant genes for significant (marginal) latent factors
 #'
-#' Calculate Z matrix by importing the PredZ function from EssReg package
 #'
 #' @param slide_results list - SLIDE results output from runSLIDE function
-#' @param output_plot_path string - Output path to save results
+#' @param out_path string - Output path to save results
 #' @param annotate_anchors logical - whether to annotate the latent factor
 #' with a '*'
 #' @return plt - ggplot image
 #' @return plot_df - dataframe used to plot results
 #' @export
 
-plotSigGenes = function(slide_results, output_plot_path = NULL,
+plotSigGenes = function(slide_results, out_path = NULL,
                         annotate_anchors = F) {
 
   slide_marginals = slide_results$feature_res
@@ -61,10 +60,10 @@ plotSigGenes = function(slide_results, output_plot_path = NULL,
     ggplot2::ggtitle("Genes Associated with Significant Latent Factors")
 
 
-  if ( !is.null(output_plot_path) ) {
+  if ( !is.null(out_path) ) {
 
-    saveRDS(sg_plot_df, paste0(output_plot_path, '/plotSigGenes_data.RDS'))
-    ggplot2::ggsave(plot = plt, filename = paste0(output_plot_path, '/plotSigGenes.png'),
+    saveRDS(sg_plot_df, paste0(out_path, '/plotSigGenes_data.RDS'))
+    ggplot2::ggsave(plot = plt, filename = paste0(out_path, '/plotSigGenes.png'),
                     device = "png",
                     width = 1.5 * length(unique(sg_plot_df$lf_num)), height = 7)
   }
