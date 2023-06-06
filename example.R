@@ -21,4 +21,4 @@ num_top_feats <- 10
 condition <- "corr"
 SLIDE_res <- GetTopFeatures(x_path, y_path, er_path, out_path, SLIDE_res, num_top_feats = 10, condition = "corr")
 
-
+plotSigGenes(SLIDE_res, out_path, annotate_anchors = FALSE)
