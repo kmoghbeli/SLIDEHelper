@@ -36,7 +36,7 @@ GetTopFeatures <- function(x_path, y_path, er_path, out_path, SLIDE_res, num_top
       sign <- sign(cor(x[,idx[j]],y,method = "spearman"))
       
       if (condition == "auc"){
-        AUC <- auc(y, x[, idx[j]])
+        AUC <- pROC::auc(y, x[, idx[j]])
         AUCs <- c(AUCs, AUC)
       }
       
