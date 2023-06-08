@@ -47,8 +47,8 @@ plotSigGenes = function(slide_results, plot_interactions = F, output_plot_path =
 
   # plot marginals
   marg_plot = sg_plot_df %>% dplyr::filter(sg_plot_df$lf_num %in% slide_results$SLIDE_res$marginal_vars) %>%
-    ggplot2::ggplot(., aes(x = factor(lf_num), y = plot_height, label = names)) +
-    ggplot2::geom_text(aes(color = factor(color))) +
+    ggplot2::ggplot(., ggplot2::aes(x = factor(lf_num), y = plot_height, label = names)) +
+    ggplot2::geom_text(ggplot2::aes(color = factor(color))) +
     ggplot2::scale_color_manual(values = c("blue", "red"), guide = "none") + theme_void() +
     ggplot2::theme(axis.text.x = element_text(), axis.title.x = element_text(),
                    axis.title.y = element_text(angle = 90)) +
@@ -64,8 +64,8 @@ plotSigGenes = function(slide_results, plot_interactions = F, output_plot_path =
     # add font face labels to data
     sg_plot_df$is_marginal = ifelse(sg_plot_df$lf_num %in% slide_results$SLIDE_res$marginal_vars,
                                     list(c("bold", "italic")), c("plain"))
-    plt = sg_plot_df %>% ggplot2::ggplot(., aes(x = factor(lf_num), y = plot_height, label = names)) +
-      ggplot2::geom_text(aes(color = factor(color),
+    plt = sg_plot_df %>% ggplot2::ggplot(., ggplot2::aes(x = factor(lf_num), y = plot_height, label = names)) +
+      ggplot2::geom_text(ggplot2::aes(color = factor(color),
                              fontface = ifelse(lf_num %in% slide_results$SLIDE_res$marginal_vars,
                                                                     "bold.italic", "plain"))) +
       ggplot2::scale_color_manual(values = c("blue", "red"), guide = "none") + theme_void() +
