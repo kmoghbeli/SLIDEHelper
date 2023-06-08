@@ -4,9 +4,9 @@
 #'
 #' @param slide_results list - SLIDE results output from runSLIDE function
 #' @param output_plot_path string - Output path to save results
-#' @param annotate_anchors logical - whether to annotate the latent factor
-#' with a '*'
-#' @return plt - ggplot image
+#' @param plot_interactions logical - whether to plot interaction variables
+#' @return plot - marginal variables plot and corresponding interaction variables and
+#' graph plot, if plot_interactions = T
 #' @return plot_df - dataframe used to plot results
 #' @export
 plotSigGenes = function(slide_results, plot_interactions = F, output_plot_path = NULL) {

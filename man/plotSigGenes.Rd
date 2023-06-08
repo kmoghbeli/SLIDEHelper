@@ -9,13 +9,13 @@ plotSigGenes(slide_results, plot_interactions = F, output_plot_path = NULL)
 \arguments{
 \item{slide_results}{list - SLIDE results output from runSLIDE function}
 
-\item{output_plot_path}{string - Output path to save results}
+\item{plot_interactions}{logical - whether to plot interaction variables}
 
-\item{annotate_anchors}{logical - whether to annotate the latent factor
-with a '*'}
+\item{output_plot_path}{string - Output path to save results}
 }
 \value{
-plt - ggplot image
+plot - marginal variables plot and corresponding interaction variables and
+graph plot, if plot_interactions = T
 
 plot_df - dataframe used to plot results
 }
