@@ -46,7 +46,7 @@ plotSigGenes = function(slide_results, plot_interactions = F, output_plot_path =
   plot_list = list()
 
   # plot marginals
-  marg_plot = sg_plot_df %>% filter(sg_plot_df$lf_num %in% slide_results$SLIDE_res$marginal_vars) %>%
+  marg_plot = sg_plot_df %>% dplyr::filter(sg_plot_df$lf_num %in% slide_results$SLIDE_res$marginal_vars) %>%
     ggplot2::ggplot(., aes(x = factor(lf_num), y = plot_height, label = names)) +
     ggplot2::geom_text(aes(color = factor(color))) +
     ggplot2::scale_color_manual(values = c("blue", "red"), guide = "none") + theme_void() +
