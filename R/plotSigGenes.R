@@ -1,6 +1,6 @@
 #' Plot significant genes for significant (marginal) latent factors
 #'
-#'
+#' @importFrom magrittr '%>%'
 #' @param slide_results list - SLIDE results output from runSLIDE function
 #' @param out_path string - Output path to save results
 #' @param annotate_anchors logical - whether to annotate the latent factor
