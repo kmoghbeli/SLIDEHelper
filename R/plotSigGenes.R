@@ -10,8 +10,7 @@
 #' @return plot_df - dataframe used to plot results
 #' @export
 
-plotSigGenes = function(slide_results, output_plot_path = NULL,
-                        annotate_anchors = F) {
+plotSigGenes = function(slide_results, output_plot_path = NULL) {
 
   slide_marginals = slide_results$feature_res
 
@@ -41,12 +40,6 @@ plotSigGenes = function(slide_results, output_plot_path = NULL,
     lf_temp$plot_height = seq(1, nrow(lf_temp))
 
     sg_plot_df = rbind(sg_plot_df, lf_temp)
-  }
-
-  # if want to have anchors annotated with *
-  if (annotate_anchors) {
-    sg_plot_df$loading_anno = ifelse(sg_plot_df$A_loading == 1, "*", " ")
-    sg_plot_df$names = paste0(sg_plot_df$names, sg_plot_df$loading_anno)
   }
 
 
