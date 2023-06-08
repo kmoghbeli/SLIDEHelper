@@ -91,6 +91,7 @@ plotSigGenes = function(slide_results, plot_interactions = F, output_plot_path =
     }
 
     edges = make_interaction_adj(slide_results$SLIDE_res)
+    ggraph::set_graph_style(plot_margin = ggplot2::margin(10,10,10,10))
 
     egraph = tidygraph::as_tbl_graph(edges, directed = F, layout = 'graphopt') %>%
       dplyr::mutate(`significance` = tidygraph::map_bfs_back_chr(tidygraph::node_is_root(),
