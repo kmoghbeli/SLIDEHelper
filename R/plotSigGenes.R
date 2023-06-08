@@ -49,7 +49,7 @@ plotSigGenes = function(slide_results, out_path = NULL,
   }
 
 
-  plt = sg_plot_df %>% ggplot2::ggplot(., aes(x = factor(lf_num), y = plot_height, label = names)) +
+  plt = sg_plot_df %>% ggplot2::ggplot(., ggplot2::aes(x = factor(lf_num), y = plot_height, label = names)) +
     ggplot2::geom_text(aes(color = factor(color))) +
     ggplot2::scale_color_manual(values = c("blue", "red"), guide = "none") + theme_void() +
     ggplot2::theme(axis.text.x = element_text(), axis.title.x = element_text(),
