@@ -94,7 +94,7 @@ plotSigGenes = function(slide_results, plot_interactions = F, output_plot_path =
 
     ggraph::set_graph_style(plot_margin = margin(10,10,10,10))
     egraph = tidygraph::as_tbl_graph(edges, directed = F, layout = 'graphopt') %>%
-      dplyr::mutate(`significance` = tidygraph::map_bfs_back_chr(node_is_root(),
+      dplyr::mutate(`significance` = tidygraph::map_bfs_back_chr(tidygraph::node_is_root(),
                                                                  .f = function(node, ...) {
         if (names(.[[node]]) %in% paste0("Z", slide_results$SLIDE_res$marginal_vars)) {
           "marginal"
