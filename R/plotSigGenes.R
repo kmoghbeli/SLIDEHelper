@@ -9,6 +9,7 @@
 #' graph plot, if plot_interactions = T
 #' @return plot_df - dataframe used to plot results
 #' @export
+
 plotSigGenes = function(slide_results, plot_interactions = F, output_plot_path = NULL) {
 
   slide_vars = slide_results$feature_res
