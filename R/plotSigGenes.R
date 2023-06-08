@@ -104,7 +104,7 @@ plotSigGenes = function(slide_results, plot_interactions = F, output_plot_path =
 
     lf_graph = ggraph::ggraph(egraph, layout = 'graphopt') +
       ggraph::geom_edge_link() +
-      ggraph::geom_node_label(aes(label = name, color = `significance`),
+      ggraph::geom_node_label(ggplot2::aes(label = name, color = `significance`),
                       # label.padding = unit(0.5, "lines"),
                       size = 12) + ggraph::theme_graph()
 
