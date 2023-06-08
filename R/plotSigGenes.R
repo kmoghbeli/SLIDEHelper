@@ -49,9 +49,9 @@ plotSigGenes = function(slide_results, plot_interactions = F, output_plot_path =
   marg_plot = sg_plot_df %>% dplyr::filter(sg_plot_df$lf_num %in% slide_results$SLIDE_res$marginal_vars) %>%
     ggplot2::ggplot(., ggplot2::aes(x = factor(lf_num), y = plot_height, label = names)) +
     ggplot2::geom_text(ggplot2::aes(color = factor(color))) +
-    ggplot2::scale_color_manual(values = c("blue", "red"), guide = "none") + theme_void() +
-    ggplot2::theme(axis.text.x = element_text(), axis.title.x = element_text(),
-                   axis.title.y = element_text(angle = 90)) +
+    ggplot2::scale_color_manual(values = c("blue", "red"), guide = "none") + ggplot2::theme_void() +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(), axis.title.x = ggplot2::element_text(),
+                   axis.title.y = ggplot2::element_text(angle = 90)) +
     ggplot2::xlab("Significant Latent Factor") +
     ylab("Genes Associated with Significant Latent Factors") +
     ggplot2::ylim(0, max_num_genes_in_any_lf) +
@@ -68,9 +68,9 @@ plotSigGenes = function(slide_results, plot_interactions = F, output_plot_path =
       ggplot2::geom_text(ggplot2::aes(color = factor(color),
                              fontface = ifelse(lf_num %in% slide_results$SLIDE_res$marginal_vars,
                                                                     "bold.italic", "plain"))) +
-      ggplot2::scale_color_manual(values = c("blue", "red"), guide = "none") + theme_void() +
-      ggplot2::theme(axis.text.x = element_text(), axis.title.x = element_text(),
-                     axis.title.y = element_text(angle = 90)) +
+      ggplot2::scale_color_manual(values = c("blue", "red"), guide = "none") + ggplot2::theme_void() +
+      ggplot2::theme(axis.text.x = ggplot2::element_text(), axis.title.x = ggplot2::element_text(),
+                     axis.title.y = ggplot2::element_text(angle = 90)) +
       ggplot2::xlab("Significant Latent Factor") +
       ylab("Genes Associated with Significant Latent Factors") +
       ggplot2::ylim(0, max_num_genes_in_any_lf) +
