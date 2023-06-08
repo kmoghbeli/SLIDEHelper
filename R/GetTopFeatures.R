@@ -33,7 +33,7 @@ GetTopFeatures <- function(x_path, y_path, er_path, out_path, SLIDE_res, num_top
     
     for (j in 1:length(idx)) { ## loop through variables with big enough loadings
       corr <- cor(x[,idx[j]],y,method = "spearman")
-      sign <- sign(cor(x[,idx[j]],y,method = "spearman"))
+      sign <- sign(corr)
       
       if (condition == "auc"){
         AUC <- pROC::auc(y, x[, idx[j]])
@@ -47,7 +47,7 @@ GetTopFeatures <- function(x_path, y_path, er_path, out_path, SLIDE_res, num_top
     if (condition == "auc"){
       
       df <- data.frame(names, A_loading, AUCs, corrs, color)
-      df <- df[order(abs(df$A_loading)), ]
+      df <- df[order(-df$A_loading), ]
       top <- df[1:num_top_feats, ]
       
       df <- df[order(-df$AUCs), ]
