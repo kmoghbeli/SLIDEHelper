@@ -9,10 +9,9 @@
 #' @return plt - ggplot image
 #' @return plot_df - dataframe used to plot results
 #' @export
+plotSigGenes = function(slide_results, plot_interactions = F, output_plot_path = NULL) {
 
-plotSigGenes = function(slide_results, output_plot_path = NULL) {
-
-  slide_marginals = slide_results$feature_res
+  slide_vars = slide_results$feature_res
 
   # this is for the upper y limit in the plot
   max_num_genes_in_any_lf = 0
@@ -20,9 +19,9 @@ plotSigGenes = function(slide_results, output_plot_path = NULL) {
   sg_df = data.frame()
 
   # make results into plottable dataframe
-  for (lf in 1:length(slide_marginals)) {
-    lf_df = list2DF(slide_marginals[[lf]])
-    lf_df$lf_num = as.numeric(stringr::str_replace(names(slide_marginals)[lf],
+  for (lf in 1:length(slide_vars)) {
+    lf_df = list2DF(slide_vars[[lf]])
+    lf_df$lf_num = as.numeric(stringr::str_replace(names(slide_vars)[lf],
                                                    pattern = "Z", replacement = ""))
     sg_df = rbind(sg_df, lf_df)
 
@@ -42,8 +41,11 @@ plotSigGenes = function(slide_results, output_plot_path = NULL) {
     sg_plot_df = rbind(sg_plot_df, lf_temp)
   }
 
+  plot_list = list()
 
-  plt = sg_plot_df %>% ggplot2::ggplot(., aes(x = factor(lf_num), y = plot_height, label = names)) +
+  # plot marginals
+  marg_plot = sg_plot_df %>% filter(sg_plot_df$lf_num %in% slide_results$SLIDE_res$marginal_vars) %>%
+    ggplot2::ggplot(., aes(x = factor(lf_num), y = plot_height, label = names)) +
     ggplot2::geom_text(aes(color = factor(color))) +
     ggplot2::scale_color_manual(values = c("blue", "red"), guide = "none") + theme_void() +
     ggplot2::theme(axis.text.x = element_text(), axis.title.x = element_text(),
@@ -51,16 +53,83 @@ plotSigGenes = function(slide_results, output_plot_path = NULL) {
     ggplot2::xlab("Significant Latent Factor") +
     ylab("Genes Associated with Significant Latent Factors") +
     ggplot2::ylim(0, max_num_genes_in_any_lf) +
-    ggplot2::ggtitle("Genes Associated with Significant Latent Factors")
+    ggplot2::ggtitle("SLIDE Marginal Variables")
+
+  plot_list[[1]] = marg_plot
+
+  if (plot_interactions) {
+    # plot all
+    # add font face labels to data
+    sg_plot_df$is_marginal = ifelse(sg_plot_df$lf_num %in% slide_results$SLIDE_res$marginal_vars,
+                                    list(c("bold", "italic")), c("plain"))
+    plt = sg_plot_df %>% ggplot2::ggplot(., aes(x = factor(lf_num), y = plot_height, label = names)) +
+      ggplot2::geom_text(aes(color = factor(color),
+                             fontface = ifelse(lf_num %in% slide_results$SLIDE_res$marginal_vars,
+                                                                    "bold.italic", "plain"))) +
+      ggplot2::scale_color_manual(values = c("blue", "red"), guide = "none") + theme_void() +
+      ggplot2::theme(axis.text.x = element_text(), axis.title.x = element_text(),
+                     axis.title.y = element_text(angle = 90)) +
+      ggplot2::xlab("Significant Latent Factor") +
+      ylab("Genes Associated with Significant Latent Factors") +
+      ggplot2::ylim(0, max_num_genes_in_any_lf) +
+      ggplot2::ggtitle("Significant Latent Factors - Marginals (bold/italic) and Interactions")
+
+
+    #interaction graph
+    make_interaction_adj = function(slide_results) {
+      # make edgelist
+      edges = data.frame()
+      for (e in slide_results$interaction_vars) {
+
+        elist = stringr::str_split(e, pattern = "\\.")[[1]]
+        elist = list(A = elist[1], B = elist[2])
+        edges = rbind.data.frame(edges, elist)
+      }
+      return(edges)
+    }
+
+    edges = make_interaction_adj(slide_results$SLIDE_res)
+
+    ggraph::set_graph_style(plot_margin = margin(10,10,10,10))
+    egraph = tidygraph::as_tbl_graph(edges, directed = F, layout = 'graphopt') %>%
+      dplyr::mutate(`significance` = tidygraph::map_bfs_back_chr(node_is_root(),
+                                                                 .f = function(node, ...) {
+        if (names(egraph[[node]]) %in% paste0("Z", slide_results$SLIDE_res$marginal_vars)) {
+          "marginal"
+        } else {
+          "interaction"
+        }
+      }))
+
+    lf_graph = ggraph::ggraph(egraph, layout = 'graphopt') +
+      ggraph::geom_edge_link() +
+      ggraph::geom_node_label(aes(label = name, color = `significance`),
+                      # label.padding = unit(0.5, "lines"),
+                      size = 12) + ggraph::theme_graph()
+
+    plot_list[[2]] = plt
+    plot_list[[3]] = lf_graph
+  }
 
 
   if ( !is.null(output_plot_path) ) {
 
     saveRDS(sg_plot_df, paste0(output_plot_path, '/plotSigGenes_data.RDS'))
-    ggplot2::ggsave(plot = plt, filename = paste0(output_plot_path, '/plotSigGenes.png'),
+
+    ggplot2::ggsave(plot = marg_plot, filename = paste0(output_plot_path, '/plotSigGenes_marginals.png'),
                     device = "png",
-                    width = 1.5 * length(unique(sg_plot_df$lf_num)), height = 7)
+                    width = 1.5 * length(slide_results$SLIDE_res$marginal_vars), height = 7)
+
+    if (plot_interactions) {
+
+      ggplot2::ggsave(plot = plt, filename = paste0(output_plot_path, '/plotSigGenes.png'),
+                      device = "png",
+                      width = 1.5 * length(unique(sg_plot_df$lf_num)), height = 7)
+
+      ggplot2::ggsave(plot = lf_graph, filename = paste0(output_plot_path, '/plotInteractions.png'),
+             height = 8, width = 12)
+    }
   }
 
-  return(list("plt" = plt, "plot_df" = sg_plot_df))
+  return(list("plots" = plot_list, "plot_df" = sg_plot_df))
 }
