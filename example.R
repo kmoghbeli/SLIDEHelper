@@ -2,14 +2,14 @@ library(SLIDEHelper)
 library(ggplot2)
 
 
-er_path <- "/Users/xiaoh/Library/CloudStorage/OneDrive-UniversityofPittsburgh/MI_Spatial/ER_SLIDE/Within_Region/052423_hf/Results/pipeline3/final_delta_0.001_lambda_0.5.rds"
-x_path <- "/Users/xiaoh/Library/CloudStorage/OneDrive-UniversityofPittsburgh/MI_Spatial/ER_SLIDE/Within_Region/052423_hf/Data/x.csv"
-out_path <- "/Users/xiaoh/Desktop/toy"
+er_path <- "final_delta_0.001_lambda_0.5.rds"
+x_path <- "x.csv"
+out_path <- "res/"
 Z_matrix <- CalcZMatrix(x_path, er_path, out_path)
 
 
 
-y_path <- "/Users/xiaoh/Library/CloudStorage/OneDrive-UniversityofPittsburgh/MI_Spatial/ER_SLIDE/Within_Region/052423_hf/Data/y.csv"
+y_path <- "y.csv"
 SLIDE_res <- runSLIDE(y_path = y_path,
                       z_path = NULL,
                       z_matrix = Z_matrix,
