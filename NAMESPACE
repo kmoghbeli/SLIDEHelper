@@ -8,3 +8,4 @@ export(plotSigGenes)
 export(runSLIDE)
 importFrom(foreach,'%dopar%')
 importFrom(magrittr,'%>%')
+

@@ -10,3 +10,39 @@ License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
+Depends: 
+    R (>= 2.10)
+Imports:
+    cluster,
+    doParallel,
+    dplyr,
+    foreach,
+    ggplot2,
+    glmnet,
+    grDevices,
+    graphics,
+    gtools,
+    knockoff,
+    linprog,
+    magrittr,
+    MASS,
+    matrixcalc,
+    methods,
+    pheatmap,
+    stringr,
+    pls,
+    plyr,
+    stats,
+    tidyr,
+    utils,
+    yaml,
+    Matrix,
+    EssReg,
+    SLIDE,
+    tidygraph,
+    ggraph
+Remotes: Hanxi-002/EssReg, jishnu-lab/SLIDE, thomasp85/ggraph
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

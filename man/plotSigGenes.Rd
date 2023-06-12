@@ -4,21 +4,27 @@
 \alias{plotSigGenes}
 \title{Plot significant genes for significant (marginal) latent factors}
 \usage{
-plotSigGenes(slide_results, out_path = NULL, annotate_anchors = F)
+
+plotSigGenes(slide_results, plot_interactions = F, out_path = NULL)
+
 }
 \arguments{
 \item{slide_results}{list - SLIDE results output from runSLIDE function}
 
-\item{out_path}{string - Output path to save results}
 
-\item{annotate_anchors}{logical - whether to annotate the latent factor
-with a '*'}
+\item{plot_interactions}{logical - whether to plot interaction variables}
+
+\item{out_path}{string - Output path to save results}
 }
 \value{
-plt - ggplot image
+plot - marginal variables plot and corresponding interaction variables and
+graph plot, if plot_interactions = T
+
 
 plot_df - dataframe used to plot results
 }
 \description{
+
 Plot significant genes for significant (marginal) latent factors
+
 }
