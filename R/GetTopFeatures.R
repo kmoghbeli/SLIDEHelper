@@ -33,10 +33,10 @@ GetTopFeatures <- function(x_path, y_path, er_path, out_path, SLIDE_res, num_top
     
     for (j in 1:length(idx)) { ## loop through variables with big enough loadings
       corr <- cor(x[,idx[j]],y,method = "spearman")
-      sign <- sign(cor(x[,idx[j]],y,method = "spearman"))
+      sign <- sign(corr)
       
       if (condition == "auc"){
-        AUC <- auc(y, x[, idx[j]])
+        AUC <- pROC::auc(y, x[, idx[j]])
         AUCs <- c(AUCs, AUC)
       }
       
@@ -47,7 +47,7 @@ GetTopFeatures <- function(x_path, y_path, er_path, out_path, SLIDE_res, num_top
     if (condition == "auc"){
       
       df <- data.frame(names, A_loading, AUCs, corrs, color)
-      df <- df[order(abs-df$A_loading), ]
+      df <- df[order(-df$A_loading), ]
       top <- df[1:num_top_feats, ]
       
       df <- df[order(-df$AUCs), ]
@@ -60,9 +60,8 @@ GetTopFeatures <- function(x_path, y_path, er_path, out_path, SLIDE_res, num_top
       
       df <- df[order(-abs(df$corrs)), ]
       bot <- df[1:num_top_feats, ]
-      final <- unique(rbind(top, bot))
     }
-    
+    final <- unique(rbind(top, bot))
     temp[[i]] <- final
     write.table(final, file = paste0(out_path, "/gene_list_",
                                      colnames(A)[i], ".txt"), col.names = TRUE, row.names = FALSE, sep = '\t', quote = FALSE)
