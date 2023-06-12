@@ -4,9 +4,6 @@
 #' @param slide_results list - SLIDE results output from runSLIDE function
 #' @param out_path string - Output path to save results
 #' @param plot_interactions logical - whether to plot interaction variables
-#' @return plot - marginal variables plot and corresponding interaction variables and
-#' graph plot, if plot_interactions = T
-#' @return plot_df - dataframe used to plot results
 #' @export
 
 
@@ -137,5 +134,4 @@ plotSigGenes = function(slide_results, plot_interactions = F, output_plot_path =
     }
   }
 
-  return(list("plots" = plot_list, "plot_df" = sg_plot_df))
 }
