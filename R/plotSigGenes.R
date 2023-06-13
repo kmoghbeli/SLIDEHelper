@@ -8,7 +8,7 @@
 
 
 
-plotSigGenes = function(slide_results, plot_interactions = F, output_plot_path = NULL) {
+plotSigGenes = function(slide_results, plot_interactions = F, out_path = NULL) {
 
   slide_vars = slide_results$feature_res
 
