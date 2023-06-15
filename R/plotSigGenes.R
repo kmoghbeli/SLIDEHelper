@@ -1,14 +1,14 @@
 #' Plot significant genes for significant (marginal) latent factors
 #'
-#' Calculate Z matrix by importing the PredZ function from EssReg package
-#'
+#' @importFrom magrittr '%>%'
 #' @param slide_results list - SLIDE results output from runSLIDE function
-#' @param output_plot_path string - Output path to save results
+#' @param out_path string - Output path to save results
 #' @param plot_interactions logical - whether to plot interaction variables
 #' @return plot - marginal variables plot and corresponding interaction variables and
 #' graph plot, if plot_interactions = T
 #' @return plot_df - dataframe used to plot results
 #' @export
+
 
 
 plotSigGenes = function(slide_results, plot_interactions = F, output_plot_path = NULL) {
@@ -45,6 +45,7 @@ plotSigGenes = function(slide_results, plot_interactions = F, output_plot_path =
 
   plot_list = list()
 
+
   # plot marginals
   marg_plot = sg_plot_df %>% dplyr::filter(sg_plot_df$lf_num %in% slide_results$SLIDE_res$marginal_vars) %>%
     ggplot2::ggplot(., ggplot2::aes(x = factor(lf_num), y = plot_height, label = names)) +
@@ -52,6 +53,7 @@ plotSigGenes = function(slide_results, plot_interactions = F, output_plot_path =
     ggplot2::scale_color_manual(values = c("blue", "red"), guide = "none") + ggplot2::theme_void() +
     ggplot2::theme(axis.text.x = ggplot2::element_text(), axis.title.x = ggplot2::element_text(),
                    axis.title.y = ggplot2::element_text(angle = 90)) +
+
     ggplot2::xlab("Significant Latent Factor") +
     ggplot2::ylab("Genes Associated with Significant Latent Factors") +
     ggplot2::ylim(0, max_num_genes_in_any_lf) +
@@ -122,21 +124,23 @@ plotSigGenes = function(slide_results, plot_interactions = F, output_plot_path =
   }
 
 
-  if ( !is.null(output_plot_path) ) {
+  if ( !is.null(out_path) ) {
 
-    saveRDS(sg_plot_df, paste0(output_plot_path, '/plotSigGenes_data.RDS'))
 
-    ggplot2::ggsave(plot = marg_plot, filename = paste0(output_plot_path, '/plotSigGenes_marginals.png'),
+    saveRDS(sg_plot_df, paste0(out_path, '/plotSigGenes_data.RDS'))
+
+    ggplot2::ggsave(plot = marg_plot, filename = paste0(out_path, '/plotSigGenes_marginals.png'),
+
                     device = "png",
                     width = 1.5 * length(slide_results$SLIDE_res$marginal_vars), height = 7)
 
     if (plot_interactions) {
 
-      ggplot2::ggsave(plot = plt, filename = paste0(output_plot_path, '/plotSigGenes.png'),
+      ggplot2::ggsave(plot = plt, filename = paste0(out_path, '/plotSigGenes.png'),
                       device = "png",
                       width = 1.5 * length(unique(sg_plot_df$lf_num)), height = 7)
 
-      ggplot2::ggsave(plot = lf_graph, filename = paste0(output_plot_path, '/plotInteractions.png'),
+      ggplot2::ggsave(plot = lf_graph, filename = paste0(out_path, '/plotInteractions.png'),
              height = 8, width = 12)
     }
   }
