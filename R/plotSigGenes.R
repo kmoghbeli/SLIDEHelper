@@ -101,12 +101,20 @@ plotSigGenes = function(slide_results, plot_interactions = F, output_plot_path =
         } else {
           "interaction"
         }
+      })) %>%
+      dplyr::mutate(`font_type` = tidygraph::map_bfs_back_chr(tidygraph::node_is_root(),
+                                                                 .f = function(node, ...) {
+        if (names(.[[node]]) %in% paste0("Z", slide_results$SLIDE_res$marginal_vars)) {
+          "bold.italic"
+        } else {
+          "plain"
+        }
       }))
 
     lf_graph = ggraph::ggraph(egraph, layout = 'graphopt') +
       ggraph::geom_edge_link() +
-      ggraph::geom_node_label(ggplot2::aes(label = name, color = `significance`),
-                      # label.padding = unit(0.5, "lines"),
+      ggraph::geom_node_label(ggplot2::aes(label = name, color = `significance`,
+                                           fontface = font_type),
                       size = 12) + ggraph::theme_graph()
 
     plot_list[[2]] = plt
