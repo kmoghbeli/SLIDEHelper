@@ -4,27 +4,15 @@
 \alias{plotSigGenes}
 \title{Plot significant genes for significant (marginal) latent factors}
 \usage{
-
 plotSigGenes(slide_results, plot_interactions = F, out_path = NULL)
-
 }
 \arguments{
 \item{slide_results}{list - SLIDE results output from runSLIDE function}
-
 
 \item{plot_interactions}{logical - whether to plot interaction variables}
 
 \item{out_path}{string - Output path to save results}
 }
-\value{
-plot - marginal variables plot and corresponding interaction variables and
-graph plot, if plot_interactions = T
-
-
-plot_df - dataframe used to plot results
-}
 \description{
-
 Plot significant genes for significant (marginal) latent factors
-
 }
