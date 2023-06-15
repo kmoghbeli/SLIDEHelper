@@ -80,6 +80,14 @@ plotSigGenes = function(slide_results, plot_interactions = F, out_path = NULL) {
     make_interaction_adj = function(slide_results) {
       # make edgelist
       edges = data.frame()
+
+      # add marginals first
+      for (e in slide_results$marginal_vals) {
+        mvar = paste0("Z", e)
+        elist = list(A = mvar, B = mvar)
+        edges = rbind.data.frame(edges, elist)
+      }
+
       for (e in slide_results$interaction_vars) {
 
         elist = stringr::str_split(e, pattern = "\\.")[[1]]
