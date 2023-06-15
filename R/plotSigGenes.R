@@ -82,7 +82,7 @@ plotSigGenes = function(slide_results, plot_interactions = F, out_path = NULL) {
       edges = data.frame()
 
       # add marginals first
-      for (e in slide_results$marginal_vals) {
+      for (e in slide_results$marginal_vars) {
         mvar = paste0("Z", e)
         elist = list(A = mvar, B = mvar)
         edges = rbind.data.frame(edges, elist)
