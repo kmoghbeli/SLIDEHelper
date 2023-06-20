@@ -80,6 +80,14 @@ plotSigGenes = function(slide_results, plot_interactions = F, out_path = NULL) {
     make_interaction_adj = function(slide_results) {
       # make edgelist
       edges = data.frame()
+
+      # add marginals first
+      for (e in slide_results$marginal_vars) {
+        mvar = paste0("Z", e)
+        elist = list(A = mvar, B = mvar)
+        edges = rbind.data.frame(edges, elist)
+      }
+
       for (e in slide_results$interaction_vars) {
 
         elist = stringr::str_split(e, pattern = "\\.")[[1]]
@@ -100,12 +108,20 @@ plotSigGenes = function(slide_results, plot_interactions = F, out_path = NULL) {
         } else {
           "interaction"
         }
+      })) %>%
+      dplyr::mutate(`font_type` = tidygraph::map_bfs_back_chr(tidygraph::node_is_root(),
+                                                                 .f = function(node, ...) {
+        if (names(.[[node]]) %in% paste0("Z", slide_results$SLIDE_res$marginal_vars)) {
+          "bold.italic"
+        } else {
+          "plain"
+        }
       }))
 
     lf_graph = ggraph::ggraph(egraph, layout = 'graphopt') +
       ggraph::geom_edge_link() +
-      ggraph::geom_node_label(ggplot2::aes(label = name, color = `significance`),
-                      # label.padding = unit(0.5, "lines"),
+      ggraph::geom_node_label(ggplot2::aes(label = name, color = `significance`,
+                                           fontface = font_type),
                       size = 12) + ggraph::theme_graph()
 
     plot_list[[2]] = plt

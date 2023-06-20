@@ -1,5 +1,12 @@
 library(SLIDEHelper)
-library(ggplot2)
+library(tidyverse)
+library(doParallel)
+
+cores <-  as.numeric(Sys.getenv('SLURM_CPUS_PER_TASK', unset=NA))
+if(is.na(cores)) cores <- detectCores()
+registerDoParallel(cores)
+cat('number of cores using', cores, '. . .\n')
+
 
 
 er_path <- "final_delta_0.001_lambda_0.5.rds"
@@ -13,7 +20,7 @@ y_path <- "y.csv"
 SLIDE_res <- runSLIDE(y_path = y_path,
                       z_path = NULL,
                       z_matrix = Z_matrix,
-                      er_path = er_path, 
+                      er_path = er_path,
                       do_interacts = TRUE,
                       spec = 0.5,
                       niter = 100)
