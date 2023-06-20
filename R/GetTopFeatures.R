@@ -31,29 +31,35 @@ GetTopFeatures <- function(x_path, y_path, er_path, out_path, SLIDE_res, num_top
     A_loading <- abs(A[, i][-which(A[, i] == 0)])
     names <- gene_names[idx]
     
+    # first calculate AUC or Cor dependent on the condition
     for (j in 1:length(idx)) { ## loop through variables with big enough loadings
-      corr <- cor(x[,idx[j]],y,method = "spearman")
-      sign <- sign(corr)
-      
       if (condition == "auc"){
-        AUC <- pROC::auc(y, x[, idx[j]])
+        AUC <- pROC::auc(y, x[, idx[j]], direction = "<")
         AUCs <- c(AUCs, AUC)
-      }
-      
-      corrs <- c(corrs, corr)
-      signs <- c(signs, sign)
-    }
+        if (AUC < 0.5){
+          sign = -1
+        }else if(AUC > 0.5){
+          sign = 1
+          }# automatically NA if AUC = 0.5
+        } else if (condition == "corr"){
+            corr <- cor(x[,idx[j]],y,method = "spearman")
+            corrs <- c(corrs, corr)
+            sign <- sign(corr)
+        }
+        signs <- c(signs, sign)
+    }      
+    
+    
     color <- recode(signs, "-1" = "Blue", "1"= "Red")
+    # then make the appropriate dataframes
     if (condition == "auc"){
-      
-      df <- data.frame(names, A_loading, AUCs, corrs, color)
+      df <- data.frame(names, A_loading, AUCs, color)
       df <- df[order(-df$A_loading), ]
       top <- df[1:num_top_feats, ]
       
       df <- df[order(-df$AUCs), ]
-      bot <- df[1:num_top_feats, ]
+      bot <- df[1:num_top_feats, ]      
     }else if(condition == "corr"){
-      
       df <- data.frame(names, A_loading, corrs, color)
       df <- df[order(-df$A_loading), ]
       top <- df[1:num_top_feats, ]
@@ -68,5 +74,7 @@ GetTopFeatures <- function(x_path, y_path, er_path, out_path, SLIDE_res, num_top
   }
   names(temp) <- colnames(A)
   SLIDE_res$feature_res <- temp
+  
+  saveRDS(SLIDE_res, paste0(out_path, "/SLIDE_res.rds"))
   return(SLIDE_res)
 }
