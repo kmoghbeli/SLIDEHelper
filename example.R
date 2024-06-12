@@ -1,4 +1,4 @@
-lksafjklafjklslkfjlibrary(SLIDEHelper)
+library(SLIDEHelper)
 library(tidyverse)
 library(doParallel)
 
